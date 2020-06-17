@@ -1,19 +1,40 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
+import {Navbar} from './src/Navbar';
+import {AddTodo} from './src/AddTodo';
+
 
 export default function App() {
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = title => {
+    setTodos(prev => [
+        ...prev, {
+          id: Date.now().toString(),
+          title
+        }
+      ]
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View>
+      <Navbar title='Todo App'/>
+      <View style={styles.container}>
+        <AddTodo onAdd={addTodo}/>
+        <View>
+          {
+            todos.map(el => <Text key={el.id}>{el.title}</Text>)
+          }
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    paddingHorizontal: 10,
+    paddingVertical: 5
+  }
 });
