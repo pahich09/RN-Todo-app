@@ -15,10 +15,10 @@ export const AddTodo = ({onAdd}) => {
 };
 const styles = StyleSheet.create({
   block: {
-    paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10,
   },
   input: {
     width: '70%',

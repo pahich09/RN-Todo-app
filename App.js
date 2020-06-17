@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {Navbar} from './src/Navbar';
 import {AddTodo} from './src/AddTodo';
+import {TodoItem} from './src/TodoItem';
 
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
         <AddTodo onAdd={addTodo}/>
         <View>
           {
-            todos.map(el => <Text key={el.id}>{el.title}</Text>)
+            todos.map(el => <TodoItem todos={el} key={el.id}/>)
           }
         </View>
       </View>
