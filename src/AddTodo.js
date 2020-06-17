@@ -1,18 +1,33 @@
-import React from 'react';
-import {View, StyleSheet, TextInput, Button} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 
 export const AddTodo = ({onAdd}) => {
+  const [value, setValue] = useState('');
+
   const pressHandler = () => {
-    onAdd('new item');
+    if (value.trim()) {
+      onAdd(value);
+      setValue('');
+    } else {
+      Alert.alert('Название не может быть пустым');
+    }
   };
 
   return (
     <View style={styles.block}>
-      <TextInput style={styles.input}/>
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={setValue}
+        placeholder='Введите заметку'
+        autoCorrect={false}
+      />
       <Button title='Добавить' onPress={pressHandler}/>
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
   block: {
     flexDirection: 'row',
