@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {THEME} from '../theme';
+import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {AppCard} from '../ui/AppCard';
 import {EditModal} from '../components/EditModal';
+import {AppTextBold} from '../ui/AppTextBold';
+import {AppButton} from '../ui/AppButton';
 
 export const TodoScreen = ({goBack, todo, onRemove, onSave}) => {
   const [modal, setModal] = useState(false);
 
   const saveHandler = title => {
-    onSave(todo.id, title)
-    setModal(false)
+    onSave(todo.id, title);
+    setModal(false);
   };
 
   return (
@@ -21,25 +24,29 @@ export const TodoScreen = ({goBack, todo, onRemove, onSave}) => {
         onSave={saveHandler}
       />
       <AppCard style={{padding: 10}}>
-        <Text>
+        <AppTextBold>
           {todo.title}
-        </Text>
-        <Button title='Редактировать'
-                onPress={() => setModal(true)}/>
+        </AppTextBold>
+        <AppButton
+          onPress={() => setModal(true)}>
+          <FontAwesome name="edit" size={20} color="#ffffff"/>
+        </AppButton>
       </AppCard>
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <Button title='Назад'
-                  onPress={goBack}
-                  style={styles.button}
-                  color={THEME.GREY_COLOR}
-          />
+          <AppButton onPress={goBack}
+                     color={THEME.GREY_COLOR}
+          >
+            <AntDesign name="back" size={20} color="#ffffff" />
+          </AppButton>
         </View>
         <View style={styles.button}>
-          <Button title='Удалить'
-                  color={THEME.DANGER_COLOR}
-                  onPress={() => onRemove(todo.id)}
-          />
+          <AppButton
+            color={THEME.DANGER_COLOR}
+            onPress={() => onRemove(todo.id)}
+          >
+            <AntDesign name="delete" size={20} color="#ffffff" />
+          </AppButton>
         </View>
       </View>
     </View>

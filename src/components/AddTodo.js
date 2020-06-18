@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import {THEME} from '../theme';
+import {Entypo} from '@expo/vector-icons';
 
 export const AddTodo = ({onAdd}) => {
   const [value, setValue] = useState('');
@@ -23,11 +24,16 @@ export const AddTodo = ({onAdd}) => {
         placeholder='Введите заметку'
         autoCorrect={false}
       />
-      <Button
-        title='Добавить'
+      <Entypo.Button
         onPress={pressHandler}
-        color={THEME.SUCCESS_COLOR}
-      />
+        name='circle-with-plus'
+      >Добавить
+      </Entypo.Button>
+      {/*<Button*/}
+      {/*  title='Добавить'*/}
+      {/*  onPress={pressHandler}*/}
+      {/*  color={THEME.SUCCESS_COLOR}*/}
+      {/*/>*/}
     </View>
   );
 };

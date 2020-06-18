@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Modal, StyleSheet, TextInput, View, Alert} from 'react-native';
 import {THEME} from '../theme';
+import {AppButton} from '../ui/AppButton';
 
 export const EditModal = ({visible, onClose, value, onSave}) => {
   const [title, setTitle] = useState(value);
@@ -9,8 +10,8 @@ export const EditModal = ({visible, onClose, value, onSave}) => {
       Alert.alert('Ошибка',
         `Минимальная длина 3 символа. Сейчас ${title.trim().length} символов`);
     } else {
-      onSave(title)
-      onClose()
+      onSave(title);
+      onClose();
     }
   };
   return (
@@ -29,16 +30,17 @@ export const EditModal = ({visible, onClose, value, onSave}) => {
           onChangeText={setTitle}
         />
         <View style={styles.buttons}>
-          <Button
-            title='Отмена'
+          <AppButton
             color={THEME.GREY_COLOR}
             onPress={onClose}
-          />
-          <Button
-            title='Сохранить'
+          >Отмена
+          </AppButton>
+          <AppButton
             color={THEME.SUCCESS_COLOR}
             onPress={saveHandler}
-          />
+          >
+            Сохранить
+          </AppButton>
         </View>
       </View>
     </Modal>
