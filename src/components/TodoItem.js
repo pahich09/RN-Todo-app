@@ -1,15 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {THEME} from '../theme';
 
-export const TodoItem = ({todos, onRemove}) => {
+export const TodoItem = ({todo, onRemove, onOpen}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.45}
-      onLongPress={onRemove.bind(null, todos.id)}
+      onLongPress={onRemove.bind(null, todo.id)}
+      onPress={()=>onOpen(todo.id)}
     >
-      <View style={styles.todo}>
+      <View style={styles.todos}>
         <Text>
-          {todos.title}
+          {todo.title}
         </Text>
       </View>
     </TouchableOpacity>
@@ -17,12 +19,12 @@ export const TodoItem = ({todos, onRemove}) => {
 };
 
 const styles = StyleSheet.create({
-  todo: {
+  todos: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderWidth: 2,
-    borderColor: '#eeeeee',
+    borderColor: THEME.GREY_COLOR,
     borderRadius: 5,
     marginBottom: 10
   },

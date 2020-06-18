@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
-import {Navbar} from './src/Navbar';
-import {AddTodo} from './src/AddTodo';
-import {TodoItem} from './src/TodoItem';
+import {StyleSheet, View, Alert} from 'react-native';
+import {Navbar} from './src/components/Navbar';
+import {MainScreen} from './src/screens/MainScreen';
+import {TodoScreen} from './src/screens/TodoScreen';
 
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {id: '1', title: 'todo #1'},
+    {id: '2', title: 'todo #2'},
+  ]);
+  const [todoId, setTodoId] = useState('2');
 
   const addTodo = title => {
     setTodos(prev => [
@@ -19,22 +23,57 @@ export default function App() {
   };
 
   const removeTodo = id => {
-    setTodos(prev => prev.filter(todo => todo.id !== id));
+    const deletedTodo = todos.find(el => el.id === id);
+    Alert.alert(
+      'Удаление',
+      `Вы действительно хотите удалить ${deletedTodo.title}`,
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel'
+        },
+        {
+          text: 'Да',
+          onPress: () => setTodos(prev => prev.filter(todo => todo.id !== id))
+        }
+      ],
+      {cancelable: false}
+    );
+    setTodoId(null);
   };
+
+  const updateTodo = (id, title) => {
+    setTodos(prev => prev.map(item => {
+      if (item.id === id) {
+        item.title = title;
+      }
+      return item;
+    }));
+  };
+
+  let content = (
+    <MainScreen
+      todos={todos}
+      addTodo={addTodo}
+      removeTodo={removeTodo}
+      openTodo={setTodoId}
+    />
+  );
+  if (todoId) {
+    const selectedTodo = todos.find(el => el.id === todoId);
+    content = <TodoScreen
+      goBack={() => setTodoId(null)}
+      todo={selectedTodo}
+      onRemove={removeTodo}
+      onSave={updateTodo}
+    />;
+  }
 
   return (
     <View>
       <Navbar title='Todo App'/>
       <View style={styles.container}>
-        <AddTodo onAdd={addTodo}/>
-        <FlatList
-          keyExtractor={item => item.id}
-          data={todos}
-          renderItem={({item}) => <TodoItem
-            todos={item}
-            onRemove={removeTodo}
-          />}
-        />
+        {content}
       </View>
     </View>
   );
