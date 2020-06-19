@@ -17,6 +17,7 @@ export const MainScreen = () => {
     deviceWidth, setDeviceWidth
   ] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZ * 2);
 
+
   const loadTodos = useCallback(async () => await fetchTodos(), [fetchTodos]);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export const MainScreen = () => {
 
   let content = (
     <View
-      style={{deviceWidth}}>
+      style={{deviceWidth, flex: 1}}>
       <FlatList
         keyExtractor={item => item.id}
         data={todos}
@@ -74,7 +75,7 @@ export const MainScreen = () => {
   }
 
   return (
-    <View>
+    <View style={{flex:1}}>
       <AddTodo onAdd={addTodo}/>
       {content}
     </View>
