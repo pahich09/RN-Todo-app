@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Platform} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {THEME} from '../theme';
 import {AppTextBold} from '../ui/AppTextBold';
 
@@ -15,7 +15,6 @@ export const Navbar = ({title}) => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   navbar: {

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Platform
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {AppTextBold} from './AppTextBold';
 import {THEME} from '../theme';
 

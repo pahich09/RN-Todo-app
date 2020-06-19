@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Keyboard, Alert} from 'react-native';
+import {Alert, Keyboard, StyleSheet, TextInput, View} from 'react-native';
 import {THEME} from '../theme';
 import {Entypo} from '@expo/vector-icons';
 
@@ -10,7 +10,7 @@ export const AddTodo = ({onAdd}) => {
     if (value.trim()) {
       onAdd(value);
       setValue('');
-      Keyboard.dismiss()
+      Keyboard.dismiss();
     } else {
       Alert.alert('Название не может быть пустым');
     }
@@ -30,11 +30,6 @@ export const AddTodo = ({onAdd}) => {
         name='circle-with-plus'
       >Добавить
       </Entypo.Button>
-      {/*<Button*/}
-      {/*  title='Добавить'*/}
-      {/*  onPress={pressHandler}*/}
-      {/*  color={THEME.SUCCESS_COLOR}*/}
-      {/*/>*/}
     </View>
   );
 };
@@ -48,7 +43,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width: '70%',
+    width: '65%',
     padding: 7,
     borderStyle: 'solid',
     borderBottomWidth: 2,
