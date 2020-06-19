@@ -1,20 +1,44 @@
-import React from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import React, {useState, useEffect, useContext} from 'react';
+import {FlatList, Image, StyleSheet, View, Dimensions} from 'react-native';
 import {AddTodo} from '../components/AddTodo';
 import {TodoItem} from '../components/TodoItem';
 import {THEME} from '../theme';
 import {AppText} from '../ui/AppText';
+import {TodoContext} from '../context/todo/todocontext';
+import {ScreenContext} from '../context/screen/screenContext';
 
-export const MainScreen = ({todos, addTodo, removeTodo, openTodo}) => {
-  let content = (<FlatList
-    keyExtractor={item => item.id}
-    data={todos}
-    renderItem={({item}) => <TodoItem
-      todo={item}
-      onRemove={removeTodo}
-      onOpen={openTodo}
-    />}
-  />);
+export const MainScreen = () => {
+  const {todos, addTodo, removeTodo} = useContext(TodoContext);
+  const {changeScreens} = useContext(ScreenContext);
+  const [
+    deviceWidth, setDeviceWidth
+  ] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZ * 2);
+
+  useEffect(() => {
+    const update = () => {
+      const width = Dimensions.get('window').width - THEME.PADDING_HORIZ * 2;
+      setDeviceWidth(width);
+    };
+    Dimensions.addEventListener('change', update);
+    return () => {
+      Dimensions.removeEventListener('change', update);
+    };
+  });
+
+  let content = (
+    <View
+      style={{deviceWidth}}>
+      <FlatList
+        keyExtractor={item => item.id}
+        data={todos}
+        renderItem={({item}) => <TodoItem
+          todo={item}
+          onRemove={removeTodo}
+          onOpen={changeScreens}
+        />}
+      />
+    </View>
+  );
 
   if (!todos.length) {
     content = (
@@ -43,7 +67,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     resizeMode: 'contain'
-    },
+  },
   text: {
     fontSize: 26,
     color: THEME.GREY_COLOR

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Modal, StyleSheet, TextInput, View, Alert} from 'react-native';
+import {Alert, Modal, StyleSheet, TextInput, View} from 'react-native';
 import {THEME} from '../theme';
 import {AppButton} from '../ui/AppButton';
 
@@ -14,6 +14,11 @@ export const EditModal = ({visible, onClose, value, onSave}) => {
       onClose();
     }
   };
+  const closeHandler = () => {
+    setTitle(value);
+    onClose();
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -32,7 +37,7 @@ export const EditModal = ({visible, onClose, value, onSave}) => {
         <View style={styles.buttons}>
           <AppButton
             color={THEME.GREY_COLOR}
-            onPress={onClose}
+            onPress={closeHandler}
           >Отмена
           </AppButton>
           <AppButton

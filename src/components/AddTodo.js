@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {View, StyleSheet, TextInput, Keyboard, Alert} from 'react-native';
 import {THEME} from '../theme';
 import {Entypo} from '@expo/vector-icons';
 
@@ -10,6 +10,7 @@ export const AddTodo = ({onAdd}) => {
     if (value.trim()) {
       onAdd(value);
       setValue('');
+      Keyboard.dismiss()
     } else {
       Alert.alert('Название не может быть пустым');
     }

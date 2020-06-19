@@ -6,6 +6,11 @@ import {AppLoading} from 'expo';
 import {Navbar} from './src/components/Navbar';
 import {MainScreen} from './src/screens/MainScreen';
 import {TodoScreen} from './src/screens/TodoScreen';
+import {THEME} from './src/theme';
+import {TodoState} from './src/context/todo/todoState';
+import {MainLayout} from './src/MainLayout';
+import {TodoContext} from './src/context/todo/todocontext';
+import {ScreenState} from './src/context/screen/screenState';
 
 async function loadApplication() {
   await Font.loadAsync({
@@ -15,13 +20,8 @@ async function loadApplication() {
 }
 
 export default function App() {
-  const [isReady, setIsReady] = useState(false);
 
-  const [todos, setTodos] = useState([
-    {id: '1', title: 'todo #1'},
-    {id: '2', title: 'todo #2'},
-  ]);
-  const [todoId, setTodoId] = useState(null);
+  const [isReady, setIsReady] = useState(false);
 
   if (!isReady) {
     return <AppLoading
@@ -31,76 +31,14 @@ export default function App() {
     />;
   }
 
-  const addTodo = title => {
-    setTodos(prev => [
-        ...prev, {
-          id: Date.now().toString(),
-          title
-        }
-      ]
-    );
-  };
-
-  const removeTodo = id => {
-    const deletedTodo = todos.find(el => el.id === id);
-    Alert.alert(
-      'Удаление',
-      `Вы действительно хотите удалить ${deletedTodo.title}`,
-      [
-        {
-          text: 'Отмена',
-          style: 'cancel'
-        },
-        {
-          text: 'Да',
-          onPress: () => setTodos(prev => prev.filter(todo => todo.id !== id))
-        }
-      ],
-      {cancelable: false}
-    );
-    setTodoId(null);
-  };
-
-  const updateTodo = (id, title) => {
-    setTodos(prev => prev.map(item => {
-      if (item.id === id) {
-        item.title = title;
-      }
-      return item;
-    }));
-  };
-
-  let content = (
-    <MainScreen
-      todos={todos}
-      addTodo={addTodo}
-      removeTodo={removeTodo}
-      openTodo={setTodoId}
-    />
-  );
-  if (todoId) {
-    const selectedTodo = todos.find(el => el.id === todoId);
-    content = <TodoScreen
-      goBack={() => setTodoId(null)}
-      todo={selectedTodo}
-      onRemove={removeTodo}
-      onSave={updateTodo}
-    />;
-  }
 
   return (
-    <View>
-      <Navbar title='Todo App'/>
-      <View style={styles.container}>
-        {content}
-      </View>
-    </View>
+    <ScreenState>
+      <TodoState>
+        <MainLayout/>
+      </TodoState>
+    </ScreenState>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10,
-    paddingVertical: 5
-  }
-});
+

@@ -1,9 +1,15 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Platform
+} from 'react-native';
 import {AppTextBold} from './AppTextBold';
 import {THEME} from '../theme';
 
 export const AppButton = ({children, onPress, color = THEME.MAIN_COLOR}) => {
+
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
       <View style={{...styles.button, backgroundColor: color}}>
