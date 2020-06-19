@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {FlatList, Image, StyleSheet, View, Dimensions} from 'react-native';
 import {AddTodo} from '../components/AddTodo';
 import {TodoItem} from '../components/TodoItem';
@@ -8,11 +8,13 @@ import {TodoContext} from '../context/todo/todocontext';
 import {ScreenContext} from '../context/screen/screenContext';
 
 export const MainScreen = () => {
-  const {todos, addTodo, removeTodo} = useContext(TodoContext);
+  const {todos, addTodo, removeTodo, fetchTodos} = useContext(TodoContext);
   const {changeScreens} = useContext(ScreenContext);
   const [
     deviceWidth, setDeviceWidth
   ] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZ * 2);
+
+  const loadTodos = useCallback(async () => await fetchTodos(), [fetchTodos]);
 
   useEffect(() => {
     const update = () => {
@@ -24,6 +26,10 @@ export const MainScreen = () => {
       Dimensions.removeEventListener('change', update);
     };
   });
+
+  useEffect(() => {
+    loadTodos();
+  }, []);
 
   let content = (
     <View
